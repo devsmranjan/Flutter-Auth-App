@@ -16,9 +16,11 @@ class Auth implements BaseAuth {
 
     try {
       googleSignInAuthentication = await googleSignInAccount.authentication;
-      FirebaseUser _user = await FirebaseAuth.instance.signInWithGoogle(
-          idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken);
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      final FirebaseUser user = await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       print("Error in google authentication");
     }
